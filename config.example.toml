@@ -1,0 +1,21 @@
+# config.toml - Configuration for HFT Grid Bot
+
+# API credentials
+api_key = "APIKEY"
+api_secret = "APISECRET"
+
+# Exchange settings
+base_url = "https://api.backpack.exchange"
+ws_url = "wss://ws.backpack.exchange"
+
+# Trading parameters
+symbol = "SOL_USDC"
+grid_upper_bound = 0.10  # +10%
+grid_lower_bound = -0.10 # -10%
+grid_levels = 2000       # 2000 grid levels
+active_orders = 6        # 6 active orders (3 bid, 3 ask)
+
+# Order parameters
+price_precision = 2      # 2 decimal places
+quantity_precision = 2   # 2 decimal places
+min_quantity = 0.01      # Minimum quantity

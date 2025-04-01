@@ -1,0 +1,20 @@
+[Unit]
+Description=Backpack Quantitative Trading Bot
+After=network.target
+
+[Service]
+ExecStart=/opt/bp_quant_trading/bp_quant_trading
+WorkingDirectory=/opt/bp_quant_trading
+User=trading_user
+Group=trading_user
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=bp_quant_trading
+Environment=RUST_LOG=info
+# 指定日誌格式為普通文本，更易於閱讀
+Environment=RUST_LOG_STYLE=always
+
+[Install]
+WantedBy=multi-user.target

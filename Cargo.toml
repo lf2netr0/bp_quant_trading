@@ -1,0 +1,20 @@
+[package]
+name = "backpack-hft-bot"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.35.1", features = ["full"] }
+reqwest = { version = "0.11.24", features = ["json"] }
+serde = { version = "1.0.197", features = ["derive"] }
+serde_json = "1.0.114"
+base64 = "0.21.7"
+ed25519-dalek = "2.1.1"
+tokio-tungstenite = { version = "0.21.0", features = ["native-tls"] }
+futures-util = "0.3.30"
+rand = "0.8.5"
+chrono = "0.4"
+toml = "0.8.10"
+log = "0.4"
+env_logger = "0.10"
+http = "0.2.11"
