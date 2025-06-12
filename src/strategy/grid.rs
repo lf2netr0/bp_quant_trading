@@ -109,8 +109,12 @@ impl GridStrategy {
             .get_max_order_quantity(&self.config.symbol, "Ask", &price_str)
             .await?;
 
-        let bid_qty = max_quantity_bid.max_order_quantity.parse::<f64>().unwrap_or(0.0);
-        let ask_qty = max_quantity_ask.max_order_quantity.parse::<f64>().unwrap_or(0.0);
+        let bid_qty = max_quantity_bid.get_max_quantity()
+            .and_then(|s| s.parse::<f64>().ok())
+            .unwrap_or(0.0);
+        let ask_qty = max_quantity_ask.get_max_quantity()
+            .and_then(|s| s.parse::<f64>().ok())
+            .unwrap_or(0.0);
 
         self.total_funds = bid_qty.min(ask_qty);
 

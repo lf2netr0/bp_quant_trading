@@ -92,7 +92,11 @@ impl RestClient {
             .send()
             .await?;
 
-        let max_quantity: MaxOrderQuantity = response.json().await?;
+        // Debug: log the response text before deserializing
+        let response_text = response.text().await?;
+        eprintln!("Max order quantity response: {}", response_text);
+        
+        let max_quantity: MaxOrderQuantity = serde_json::from_str(&response_text)?;
         Ok(max_quantity)
     }
 
@@ -298,7 +302,19 @@ pub struct Account {
 #[derive(Deserialize)]
 pub struct MaxOrderQuantity {
     #[serde(rename = "maxOrderQuantity")]
-    pub max_order_quantity: String,
+    pub max_order_quantity: Option<String>,
+    // Alternative field names in case the API uses different naming
+    #[serde(rename = "maxQuantity")]
+    pub max_quantity: Option<String>,
+    pub quantity: Option<String>,
+}
+
+impl MaxOrderQuantity {
+    pub fn get_max_quantity(&self) -> Option<&String> {
+        self.max_order_quantity.as_ref()
+            .or(self.max_quantity.as_ref())
+            .or(self.quantity.as_ref())
+    }
 }
 
 #[derive(Deserialize, Clone)]
