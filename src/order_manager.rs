@@ -32,8 +32,8 @@ impl OrderManager {
         quantity: f64,
     ) -> Result<Order, Box<dyn Error + Send + Sync>> {
         // Format price and quantity with correct precision
-        let price_str = format!("{:.2}", price); // 2 decimal places
-        let quantity_str = format!("{:.2}", quantity); // 2 decimal places
+        let price_str = format!("{:}", price); // 2 decimal places
+        let quantity_str = format!("{:}", quantity); // 2 decimal places
 
         // Create client ID for the order
         let client_id = rand::thread_rng().gen::<u32>();
@@ -49,7 +49,7 @@ impl OrderManager {
             auto_borrow: Some(true),
             auto_borrow_repay: Some(true),
         };
-
+        println!("Placing order: {:?}", order_request);
         // Try to place the order
         let order = self.rest_client.place_order(order_request).await?;
 

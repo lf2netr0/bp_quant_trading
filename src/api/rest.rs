@@ -238,7 +238,7 @@ impl RestClient {
 
 // Data structures for API requests and responses
 
-#[derive(Serialize)]
+#[derive(Serialize, Debug)]
 pub struct PlaceOrderRequest {
     #[serde(rename = "autoBorrow")]
     pub auto_borrow: Option<bool>,
