@@ -55,7 +55,7 @@ impl RestClient {
         &self,
         symbol: &str,
         side: &str,
-        price: &str,
+        _price: &str,
     ) -> Result<MaxOrderQuantity, Box<dyn Error + Send + Sync>> {
         let endpoint = "/api/v1/account/limits/order";
         let method = "GET";
@@ -92,12 +92,22 @@ impl RestClient {
             .send()
             .await?;
 
-        // Debug: log the response text before deserializing
+        let status = response.status();
         let response_text = response.text().await?;
-        eprintln!("Max order quantity response: {}", response_text);
         
-        let max_quantity: MaxOrderQuantity = serde_json::from_str(&response_text)?;
-        Ok(max_quantity)
+        match status {
+            reqwest::StatusCode::OK => {
+                // Debug: log the response text before deserializing
+                eprintln!("Max order quantity response: {}", response_text);
+                
+                let max_quantity: MaxOrderQuantity = serde_json::from_str(&response_text)?;
+                Ok(max_quantity)
+            }
+            _ => {
+                Err(format!("Error getting max order quantity: Status {}, Body: {}", 
+                           status, response_text).into())
+            }
+        }
     }
 
     pub async fn place_order(
